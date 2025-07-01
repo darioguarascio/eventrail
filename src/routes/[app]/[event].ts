@@ -6,9 +6,10 @@ const validators: any = [
 ];
 
 const handler = async (req: Request, res: Response) => {
-  const { event } = req.params
+  const { app, event } = req.params
   const dataset = {
     "@timestamp": new Date().getTime(),
+    "app": app,
     "event": event,
     "headers": req.headers,
     "ip": req.ip,
