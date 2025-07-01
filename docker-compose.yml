@@ -20,8 +20,8 @@ services:
     env_file:
       - .env
     tty: true
-    expose:
-      - 3000
+    ports:
+      - ${BACKEND_LISTEN:-127.0.0.1:3000}:3000
     logging:
       options:
         max-size: ${DOCKER_LOG_MAX_SIZE:-10m}
