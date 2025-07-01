@@ -1,0 +1,29 @@
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    volumes:
+      - .config/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    logging:
+     options:
+        max-size: ${DOCKER_LOG_MAX_SIZE:-10m}
+        max-file: ${DOCKER_LOG_MAX_FILE:-3}
+
+  backend:
+    build:
+      context: ./
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    working_dir: /app
+    env_file:
+      - .env
+    tty: true
+    expose:
+      - 3000
+    logging:
+      options:
+        max-size: ${DOCKER_LOG_MAX_SIZE:-10m}
+        max-file: ${DOCKER_LOG_MAX_FILE:-3}
+
